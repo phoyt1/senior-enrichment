@@ -6,6 +6,7 @@ const Campus = models.Campus;
 module.exports = router;
 
 router.get('/',(req, res, next) => {
+  console.log("SERVER ROUTE!!!!!!")
   Campus.findAll()
     .then((allCampuses) => {res.send(allCampuses)})
     .catch(next);
@@ -17,8 +18,13 @@ router.get('/:id',(req, res, next) => {
     .catch(next);
 })
 
+var data = {
+  name: 'Test Campus',
+  image: 'test image'
+}
+
 router.post('/',(req, res, next) => {
-  Campus.create(req.body)
+  Campus.create(data)
     .then((created) => {res.status(201).send(created)})
     .catch(next)
 })

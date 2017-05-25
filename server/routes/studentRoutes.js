@@ -16,13 +16,13 @@ router.get('/:id',(req, res, next) => {
     .then((foundStudent) => {res.send(foundStudent)})
     .catch(next);
 })
-// var data = {
-//   name: 'Test Student',
-//   email: 'test@test.com'
-// }
+var data = {
+  name: 'Test Student',
+  email: 'test@test.com'
+}
 
 router.post('/',(req, res, next) => {
-  Student.create(req.body)
+  Student.create(data)
     .then((created) => {res.status(201).send(created)})
     .catch(next)
 })
