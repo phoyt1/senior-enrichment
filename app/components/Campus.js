@@ -1,23 +1,25 @@
 import React from 'react';
 import {Link} from 'react-router';
+import { connect } from 'react-redux';
 
+/* -----------------    COMPONENT     ------------------ */
 
-
-const Campus = function(){
+const Campus = function(props){
+  console.log('CAMPUS PROPS',props)
   return (
     <div>
       <div className="row">
         <div className="col-xs-6 col-md-3">
           <a href="#" className="thumbnail">
-            <img src="http://p7cdn4static.sharpschool.com/UserFiles/Servers/Server_520989/Image/school.png" alt="..." />
+            <img src={props.selectedCampus.image} />
           </a>
         </div>
       </div>
 
-      <h3>Single Campus <span className="btn btn-primary btn-xs">  Edit</span></h3>
+      <h3>{props.selectedCampus.name} <span className="btn btn-primary btn-xs">  Edit</span></h3>
       <br />
         <div className="list-group col-md-10 well">
-          <h4>Current Students </h4>
+          <h4>Current Students (Click to edit)</h4>
           <Link to="/students/:id" className="list-group-item">Cras justo odio</Link>
           <Link to="/students/:id" className="list-group-item">Dapibus ac facilisis in</Link>
           <Link to="/students/:id" className="list-group-item">Morbi leo risus</Link>
@@ -27,5 +29,18 @@ const Campus = function(){
     </div>
   )
 }
+/* -----------------    CONTAINER     ------------------ */
+function mapStateToProps(state, ownProps){
+  console.log('STATE',state.campuses)
+  return {
+    selectedCampus: state.campuses.selectedCampus
+  }
+}
 
-export default Campus;
+function mapDispatchToProps(dispatch, ownProps){
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campus)
+
