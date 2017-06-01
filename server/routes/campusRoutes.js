@@ -19,7 +19,7 @@ router.get('/:id',(req, res, next) => {
 })
 
 var data = {
-  name: 'Test Campus',
+  name: 'Test Campus!!!!!',
   image: 'test image'
 }
 
@@ -41,7 +41,7 @@ router.put('/:id', (req, res, next) => {
           returning: true
         })
     })
-    .then((updated) => {res.send(`Updated to ${updated.name}`)})
+    .then((updated) => {res.send(updated)})
     .catch(next)
 })
 
