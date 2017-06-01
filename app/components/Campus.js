@@ -1,11 +1,17 @@
 import React from 'react';
 import {Link} from 'react-router';
 import { connect } from 'react-redux';
+import EditCampus from './EditCampus';
 
 /* -----------------    COMPONENT     ------------------ */
 
 const Campus = function(props){
   console.log('CAMPUS PROPS',props)
+  var studentsFoundNotification =
+    ((!props.selectedCampus.students.length)
+      ? 'No students enrolled'
+      : 'Current Students')
+
   return (
     <div>
       <div className="row">
@@ -16,17 +22,42 @@ const Campus = function(props){
         </div>
       </div>
 
-      <h3>{props.selectedCampus.name} <span className="btn btn-primary btn-xs">  Edit</span></h3>
+      <h3>{props.selectedCampus.name}
+        <Link to='/'>
+          <span className="btn btn-primary btn-xs">  Edit</span>
+        </Link>
+        <span>      </span>
+        <Link to='/'>
+          <span className="btn btn-danger btn-xs">  Delete Campus</span>
+        </Link>
+      </h3>
+      <div>
+
+          <EditCampus />
+
+
+      </div>
       <br />
-        <div className="list-group col-md-10 well">
-          <h4>Current Students (Click to edit)</h4>
+        <div className="list-group col-md-8 well">
+          <span>
+            <h4>{studentsFoundNotification}
+            <Link to='/'>
+            <button type="button" className="btn btn-primary btn-xs pull-right">Add Student</button>
+            </Link>
+            </h4>
+          </span>
           {
-            props.selectedCampus.students ?
-              props.selectedCampus.students.map(student => {
-                return <Link key={student.id} to={`/students/${student.id}`} className="list-group-item">{student.name}</Link>
-              })
-              :
-               <h4>No current students</h4>
+            props.selectedCampus.students.map(student => {
+              return (
+                <span key={student.id} className="list-group-item">
+                <Link  to={`/students/${student.id}`}>{student.name}</Link>
+                  <Link to='/'>
+                    <button type="button" className="btn btn-danger btn-xs pull-right">Delete</button>
+                  </Link>
+
+                </span>
+              )
+            })
           }
         </div>
     </div>

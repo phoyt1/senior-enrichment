@@ -17,7 +17,12 @@ export const getSingleCampus  = (campus) => {
   return {type: SELECT, campus} };
 
 /* ------------       REDUCER     ------------------ */
-const initialState = {campuses:[], currentStudents:[], selectedCampus: {}};
+const initialState = {
+  campuses:[],
+  // currentStudents:[],
+  selectedCampus: {
+    students: []
+  }};
 export default function reducer (state = initialState, action) {
   const newState = Object.assign({}, state);
   switch (action.type) {
