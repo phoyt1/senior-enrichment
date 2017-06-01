@@ -20,11 +20,14 @@ const Campus = function(props){
       <br />
         <div className="list-group col-md-10 well">
           <h4>Current Students (Click to edit)</h4>
-          <Link to="/students/:id" className="list-group-item">Cras justo odio</Link>
-          <Link to="/students/:id" className="list-group-item">Dapibus ac facilisis in</Link>
-          <Link to="/students/:id" className="list-group-item">Morbi leo risus</Link>
-          <Link to="/students/:id" className="list-group-item">Porta ac consectetur ac</Link>
-          <Link to="/students/:id" className="list-group-item">Vestibulum at eros</Link>
+          {
+            props.selectedCampus.students ?
+              props.selectedCampus.students.map(student => {
+                return <Link key={student.id} to={`/students/${student.id}`} className="list-group-item">{student.name}</Link>
+              })
+              :
+               <h4>No current students</h4>
+          }
         </div>
     </div>
   )

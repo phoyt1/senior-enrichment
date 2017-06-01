@@ -10,7 +10,8 @@ export const Campuses = function(props){
   return (
     <div className="row">
       {
-        props.campuses.campuses.map(campus=>(
+        props.campuses ?
+        props.campuses.map(campus=>(
         <div className="col-sm-6 col-md-4" key={ campus.id }>
             <div className="thumbnail">
               <Link to={`/campuses/${campus.id}`}>
@@ -22,6 +23,8 @@ export const Campuses = function(props){
             </div>
           </div>
         ))
+        :
+        null
       }
     </div>
   )
@@ -31,7 +34,7 @@ export const Campuses = function(props){
 /* -----------------    CONTAINER     ------------------ */
 function mapStateToProps(state, ownProps){
   return {
-    campuses: state.campuses
+    campuses: state.campuses.campusesArr
   }
 }
 

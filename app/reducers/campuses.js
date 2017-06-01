@@ -23,7 +23,7 @@ export default function reducer (state = initialState, action) {
   switch (action.type) {
 
     case INITIALIZE:
-      newState.campuses = action.campuses
+      newState.campusesArr = action.campuses
       //newState.currentStudents = action.students
       break;
 

@@ -18,15 +18,12 @@ import { getCampuses, getStudents, findSingleCampuses } from './reducers/campuse
 // import Root from './components/Root'
 
 const onCampusesEnter = function () {
-  bluebird.all([
-    axios.get('/api/campus'),
-    axios.get('/api/student')
-  ])
-    .spread((campuses, students) => {
-      store.dispatch(getCampuses(campuses.data));
-      console.log('students.data',students.data)
-      //store.dispatch(getStudents(students.data));
-    })
+  axios.get('/api/campus')
+  .then(foundCampuses => {
+    store.dispatch(getCampuses(foundCampuses.data));
+
+    //store.dispatch(getStudents(students.data));
+  })
 
 }
 
