@@ -39,15 +39,19 @@ router.put('/:id', (req, res, next) => {
   Student.findById(req.params.id)
     .then((foundStudent) => {
       if(!foundStudent) return res.status(500).send();
-
       return foundStudent.update({
+
         name: req.body.name || foundStudent.name,
-        email: req.body.email || foundStudent.email
+        email: req.body.email || foundStudent.email,
+        campusId: req.body.campusId
         }, {
-          returning: true
+          returning: true,
+          include: [{
+            model: Campus
+          }]
         })
     })
-    .then((updated) => {console.log('updated',updated); res.send(`Updated ${updated.name}`)})
+    .then((updated) => { res.send(updated) })
     .catch(next)
 })
 

@@ -4,16 +4,18 @@ import axios from 'axios';
 /* -----------------    ACTIONS     ------------------ */
 
 const GET_STUDENT = 'GET_STUDENT';
+const UPDATE_STUDENT = 'UPDATE_STUDENT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const getStudent  = (student) => {
   return {type: GET_STUDENT, student} };
 
+export const updateStudent  = (student, campusData) => {
+  student.campus = campusData
+  return {type: UPDATE_STUDENT, student} };
 /* ------------       REDUCER     ------------------ */
 const initialState = {
-  //campuses:[],
-  // currentStudents:[],
   selectedStudent: {
     campus: {
       image: '',
@@ -36,6 +38,10 @@ export default function reducer (state = initialState, action) {
       newState.selectedStudent = action.student
       break;
 
+    case UPDATE_STUDENT:
+      newState.selectedStudent = Object.assign(state.selectedStudent, action.student)
+      break;
+
     default:
       newState = state;
   }
@@ -50,8 +56,15 @@ export default function reducer (state = initialState, action) {
 export const findSingleStudent = (id) => dispatch => {
   axios.get(`/api/student/${id}`)
        .then(foundStudent => {
-         console.log(foundStudent)
          dispatch(getStudent(foundStudent.data))
+        })
+        .catch(err => console.error(err));
+}
+
+export const editCurrentStudent = (id, student) => dispatch => {
+  axios.put(`/api/student/${id}`, student)
+       .then(updatedStudent => {
+         dispatch(updateStudent(updatedStudent.data, student.campus))
         })
         .catch(err => console.error(err));
 }

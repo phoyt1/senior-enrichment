@@ -3,7 +3,6 @@ import React from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 import {Router, Route, hashHistory, IndexRedirect} from 'react-router';
-import bluebird from 'bluebird'
 import Home from './components/Home';
 import Campus from './components/Campus';
 import Campuses from './components/Campuses';
@@ -21,7 +20,6 @@ const onCampusesEnter = function () {
   .then(foundCampuses => {
     store.dispatch(getCampuses(foundCampuses.data));
 
-    //store.dispatch(getStudents(students.data));
   })
 
 }
@@ -39,8 +37,8 @@ const onStudentEnter = function(nextRouterState) {
 render(
   <Provider store={store}>
   <Router history={hashHistory}>
-    <Route path="/" component={Home} >
-      <Route path="/campuses" component={Campuses} onEnter={onCampusesEnter} />
+    <Route path="/" component={Home} onEnter={onCampusesEnter}>
+      <Route path="/campuses" component={Campuses} onEnter={onCampusesEnter}/>
       <Route path="/campuses/:id" component={Campus} onEnter={onCampusEnter}/>
       <Route path="/students" component={Students} >
         <Route path="addStudent" component={AddStudent} />

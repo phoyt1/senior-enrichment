@@ -36,11 +36,9 @@ export const getSingleCampus  = (campus) => {
 
 /* ------------       REDUCER     ------------------ */
 const initialState = {
-  //campuses:[],
-  // currentStudents:[],
+  campusesArr: [],
   selectedCampus: {
     students: [],
-    //editCampus: false
   }};
 export default function reducer (state = initialState, action) {
   var newState = Object.assign({}, state);
