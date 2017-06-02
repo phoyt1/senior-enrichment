@@ -18,13 +18,13 @@ router.get('/:id',(req, res, next) => {
     .catch(next);
 })
 
-var data = {
-  name: 'Test Campus!!!!!',
-  image: 'test image'
-}
+// var data = {
+//   name: 'Test Campus!!!!!',
+//   image: 'http://p7cdn4static.sharpschool.com/UserFiles/Servers/Server_520989/Image/school.png'
+// }
 
 router.post('/',(req, res, next) => {
-  Campus.create(data)
+  Campus.create(req.body)
     .then((created) => {res.status(201).send(created)})
     .catch(next)
 })

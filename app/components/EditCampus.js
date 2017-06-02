@@ -5,7 +5,7 @@ const EditCampus = function(props){
   console.log('EDIT CAMPUS PROPS',props)
   return (
     <div className="well col-md-8">
-    <h4>Edit Campus Form</h4>
+    <h4>Campus Form</h4>
     <br />
     <form onSubmit={props.onSubmit} className="form-inline table">
       <div className="form-group col-md-4">

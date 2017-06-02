@@ -2,17 +2,21 @@ import React from 'react';
 import {Link} from 'react-router';
 import { connect } from 'react-redux';
 import EditCampus from './EditCampus';
-import { editCampus, deleteCampus, deleteStudentFromCampus } from '../reducers/campuses'
+import AddStudentToCampus from './AddStudentToCampus';
+import { editCampus, deleteCampus, deleteStudentFromCampus, addStudent } from '../reducers/campuses'
 /* -----------------    COMPONENT     ------------------ */
 class Campus extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      editCampus: false
+      editCampus: false,
+      newStudent: false
     }
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onCampusSubmit = this.onCampusSubmit.bind(this);
+    this.onStudentSubmit = this.onStudentSubmit.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
+    this.onAddClick = this.onAddClick.bind(this);
     this.onDeleteCampusClick = this.onDeleteCampusClick.bind(this);
     this.onDeleteStudentClick = this.onDeleteStudentClick.bind(this);
     console.log('CAMPUS PROPS',this.props)
@@ -42,19 +46,21 @@ class Campus extends React.Component {
         <span onClick={this.onDeleteCampusClick} className="btn btn-danger btn-xs">  Delete Campus</span>
       </h3>
       <div>
-        { this.state.editCampus
-
-          ? <EditCampus onSubmit={this.onSubmit} />
-          : null
+        {
+          this.state.editCampus
+            ? <EditCampus onSubmit={this.onCampusSubmit} />
+            : null
+        }{
+          this.state.newStudent
+            ? <AddStudentToCampus onSubmit={this.onStudentSubmit} />
+            : null
         }
       </div>
       <br />
       <div className="list-group col-md-8 well">
         <span>
           <h4>{studentsFoundNotification}
-          <Link to='/'>
-          <button type="button" className="btn btn-primary btn-xs pull-right">Add Student</button>
-          </Link>
+          <button onClick={this.onAddClick} type="button" className="btn btn-primary btn-xs pull-right">Add Student</button>
           </h4>
         </span>
         {
@@ -82,7 +88,7 @@ class Campus extends React.Component {
     }
   }
 
-  onSubmit(event) {
+  onCampusSubmit(event) {
       event.preventDefault();
 
       const editedCampus = {
@@ -93,7 +99,32 @@ class Campus extends React.Component {
       event.target.name.value = '';
       event.target.image.value = '';
       this.setState({
-      editCampus: false
+        editCampus: false
+    });
+  }
+
+  onStudentSubmit(event) {
+      event.preventDefault();
+
+      const newStudent = {
+        name: event.target.name.value,
+        email: event.target.email.value,
+        campusId: this.props.selectedCampus.id
+      };
+
+      this.props.addStudent(newStudent);
+      event.target.name.value = '';
+      event.target.email.value = '';
+      this.setState({
+        newStudent: false
+    });
+  }
+
+  onAddClick() {
+    let val;
+    this.state.newStudent ? val = false : val = true
+    this.setState({
+      newStudent: val
     });
   }
 
@@ -124,6 +155,9 @@ function mapDispatchToProps(dispatch){
     },
     deleteStudent:(studentId, campusId) => {
       dispatch(deleteStudentFromCampus(studentId, campusId));
+    },
+    addStudent: (student) => {
+      dispatch(addStudent(student))
     }
   }
 }
