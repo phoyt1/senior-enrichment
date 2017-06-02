@@ -17,8 +17,8 @@ class Student extends React.Component {
   }
 
   render (){
-  const selectedStudent = this.props.students.selectedStudent;
-  const campuses = this.props.campuses;
+  var selectedStudent = this.props.students.selectedStudent;
+  var campuses = this.props.campuses;
   return (
     <div>
       <div className="row">

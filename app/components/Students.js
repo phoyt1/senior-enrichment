@@ -1,28 +1,40 @@
 import React from 'react';
 import {Link} from 'react-router';
-import AddStudent from './AddStudent.js'
+import AddStudent from './AddStudent.js';
+import { connect } from 'react-redux';
+import { deleteStudent, addNewStudent } from '../reducers/students';
 
-const Students = function(props){
-  const handleStudentClick = props.handleClick;
-  const handleAddStudentClick = props.handleAddStudentClick;
-  const showAddStudent = props.showAddStudent || true;
+class Students extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      addStudent: false
+    }
+    this.onAddStudentSubmit = this.onAddStudentSubmit.bind(this);
+    this.onAddClick = this.onAddClick.bind(this);
+    this.onDeleteStudentClick = this.onDeleteStudentClick.bind(this);
+  }
+
+  render (){
+    var students = this.props.students.studentArr
+    var campuses = this.props.campuses
   return (
     <div>
       <div className="row">
         <div className="col-md-8">
-          <h3>All Students <span className="btn btn-primary btn-xs" onClick={handleAddStudentClick}>  Add Student</span></h3>
+          <h3>All Students <span className="btn btn-primary btn-xs" onClick={this.onAddClick}>  Add Student</span></h3>
         </div>
 
       </div>
       <div>
         {
-          showAddStudent ? <AddStudent /> : null
+          this.state.addStudent ? <AddStudent campuses={campuses} onSubmit={this.onAddStudentSubmit}/> : null
         }
 
       </div>
       <div className="col-md-10">
-        <table className="table table-striped table-hover">
+        <table className="table table-striped">
           <tbody>
 
             <tr>
@@ -31,30 +43,76 @@ const Students = function(props){
               <th>Campus</th>
               <th></th>
             </tr>
+            {
+              students.map(student => {
+               return (
+                <tr key={student.id}>
+                  <td>{student.id}</td>
+                  <td><Link to={`/students/${student.id}`}>{student.name}</Link></td>
+                  <td><Link to={`/campuses/${student.campusId}`}>{student.campus.name}</Link></td>
+                  <td><button onClick={this.onDeleteStudentClick(student.id)} type="button" className="btn btn-danger btn-xs">Delete</button></td>
+                </tr>
+               )
+              })
+            }
 
-            <tr onClick={handleStudentClick}>
-              <td>1</td>
-              <td>Bobby Tables</td>
-              <td>Fullstack</td>
-              <td><button type="button" className="btn btn-danger btn-xs">Delete</button></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Bobby Tables</td>
-              <td>Fullstack</td>
-              <td>X</td>
-            </tr>
+
           </tbody>
         </table>
       </div>
     </div>
-  )
+  )}
+
+  onAddClick() {
+    let val;
+    this.state.addStudent ? val = false : val = true
+    this.setState({
+      addStudent: val
+    });
+  }
+  onDeleteStudentClick(id) {
+    return ()=>{
+      this.props.deleteStudent(id)
+    }
+  }
+
+  onAddStudentSubmit(event) {
+    event.preventDefault();
+    var selectedCampus = this.props.campuses.campusesArr.filter(campus =>{
+      return campus.id === +event.target.campus.value
+    })
+    const newStudent = {
+      name: event.target.name.value,
+      email: event.target.email.value,
+      campusId: +event.target.campus.value,
+      campus: selectedCampus[0]
+    };
+    this.props.newStudent(newStudent);
+    event.target.name.value = '';
+    event.target.email.value = '';
+    this.setState({
+      editStudent: false
+  });
+  }
+
 }
-//  <div className="list-group">
-//         <Link to="/students/:id" className="list-group-item">Cras justo odio</Link>
-//         <Link to="/students/:id" className="list-group-item">Dapibus ac facilisis in</Link>
-//         <Link to="/students/:id" className="list-group-item">Morbi leo risus</Link>
-//         <Link to="/students/:id" className="list-group-item">Porta ac consectetur ac</Link>
-//         <Link to="/students/:id" className="list-group-item">Vestibulum at eros</Link>
-//       </div>
-export default Students;
+/* -----------------    CONTAINER     ------------------ */
+function mapStateToProps(state){
+  return {
+    students: state.students,
+    campuses: state.campuses
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    deleteStudent:(id)=>{
+      dispatch(deleteStudent(id));
+    },
+    newStudent: (student) =>{
+      dispatch(addNewStudent(student))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Students)

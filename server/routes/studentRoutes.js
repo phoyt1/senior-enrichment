@@ -7,7 +7,11 @@ const Campus = models.Campus;
 module.exports = router;
 
 router.get('/', (req, res, next) => {
-  Student.findAll()
+  Student.findAll({
+    include: [{
+      model: Campus
+    }]
+  })
     .then((allStudents) => {res.send(allStudents)})
     .catch(next);
 })
@@ -46,9 +50,6 @@ router.put('/:id', (req, res, next) => {
         campusId: req.body.campusId
         }, {
           returning: true,
-          include: [{
-            model: Campus
-          }]
         })
     })
     .then((updated) => { res.send(updated) })
