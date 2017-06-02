@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 
 const EditCampus = function(props){
-  console.log('EDIT CAMPUS PROPS',props)
   return (
     <div className="well col-md-8">
     <h4>Campus Form</h4>

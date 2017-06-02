@@ -19,7 +19,6 @@ class Campus extends React.Component {
     this.onAddClick = this.onAddClick.bind(this);
     this.onDeleteCampusClick = this.onDeleteCampusClick.bind(this);
     this.onDeleteStudentClick = this.onDeleteStudentClick.bind(this);
-    console.log('CAMPUS PROPS',this.props)
   }
 
   render(){

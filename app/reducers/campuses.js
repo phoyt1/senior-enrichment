@@ -43,7 +43,6 @@ const initialState = {
     //editCampus: false
   }};
 export default function reducer (state = initialState, action) {
-  console.log('ACTION',action)
   var newState = Object.assign({}, state);
   switch (action.type) {
 
@@ -81,7 +80,6 @@ export default function reducer (state = initialState, action) {
     default:
       newState = state;
   }
-  console.log('NEW STATE', newState);
   return newState;
 }
 

@@ -13,9 +13,8 @@ import AddStudent from './components/AddStudent';
 import store from './store';
 import axios from 'axios';
 import { getCampuses, getStudents, findSingleCampuses } from './reducers/campuses';
-//import { getAlbumById } from './reducers/campuses'
+import { findSingleStudent } from './reducers/students';
 
-// import Root from './components/Root'
 
 const onCampusesEnter = function () {
   axios.get('/api/campus')
@@ -32,6 +31,11 @@ const onCampusEnter = function (nextRouterState) {
   store.dispatch(findSingleCampuses(campusId));
 }
 
+const onStudentEnter = function(nextRouterState) {
+  const studentId = nextRouterState.params.id;
+  store.dispatch(findSingleStudent(studentId));
+}
+
 render(
   <Provider store={store}>
   <Router history={hashHistory}>
@@ -41,7 +45,7 @@ render(
       <Route path="/students" component={Students} >
         <Route path="addStudent" component={AddStudent} />
       </Route>
-      <Route path="/students/:id" component={Student} />
+      <Route path="/students/:id" component={Student} onEnter={onStudentEnter} />
       <IndexRedirect to="/campuses" />
     </Route>
   </Router>

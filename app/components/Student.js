@@ -1,28 +1,42 @@
 import React from 'react';
 import {Link} from 'react-router';
+import { connect } from 'react-redux';
 
-
+/* -----------------    COMPONENT     ------------------ */
 
 const Student = function(props){
-  const studentName = props.name;
+  const selectedStudent = props.selectedStudent;
   return (
     <div>
       <div className="row">
         <div className="col-xs-6 col-md-3">
           <a href="#" className="thumbnail">
-            <img src="http://p7cdn4static.sharpschool.com/UserFiles/Servers/Server_520989/Image/school.png" alt="..." />
+            <img src={selectedStudent.campus.image}  />
           </a>
         </div>
       </div>
 
-      <h3>Student Name <span className="btn btn-primary btn-xs">  Edit</span></h3>
+      <h3>{selectedStudent.name} <span className="btn btn-primary btn-xs">  Edit</span></h3>
       <div className="list-group col-md-6 well">
-        <label>Email:</label>
+        <label>Email: {selectedStudent.email}</label>
         <br />
-        <label>Campus:</label>
+        <label>Campus: {selectedStudent.campus.name}</label>
       </div>
     </div>
+
   )
 }
+/* -----------------    CONTAINER     ------------------ */
+function mapStateToProps(state){
+  return {
+    selectedStudent: state.students.selectedStudent
+  }
+}
 
-export default Student;
+function mapDispatchToProps(dispatch){
+  return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Student)
+

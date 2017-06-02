@@ -28,7 +28,6 @@ class Campuses extends React.Component {
             ? <EditCampus onSubmit={this.onCampusSubmit} />
             : null
         }
-
       </div>
     <div className="row">
       {
@@ -67,7 +66,6 @@ class Campuses extends React.Component {
         name: event.target.name.value,
         image: event.target.image.value,
       };
-      console.log('NEW CAMPUS', newCampus)
       this.props.addNewCampus(newCampus);
       event.target.name.value = '';
       event.target.image.value = '';

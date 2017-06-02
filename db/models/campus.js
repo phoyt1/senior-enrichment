@@ -2,7 +2,7 @@
 var Sequelize = require('sequelize');
 var db = require('../index.js');
 const Student = db.model('student');
-console.log('STUDENT',Student)
+//console.log('DB MODEL',db.model)
 module.exports = db.define('campus',{
   name: {
     type: Sequelize.STRING,
